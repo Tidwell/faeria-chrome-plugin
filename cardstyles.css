@@ -1,0 +1,31 @@
+[data-faeria-card-hover-chrome-extension-card-id] {
+	overflow: visible;
+	text-decoration-line: underline !important;
+    text-decoration-style: dotted !important;
+    position: relative;
+    cursor: pointer;
+    font-weight: initial !important;
+    border-bottom: none !important;
+    color: inherit !important;
+}
+img[data-faeria-hover-chrome-extension-card-overlay-image] {
+	z-index: 9999;
+	display: block;
+	position: fixed;
+
+	height: 300px !important;
+	width: 300px !important;
+	max-width: 300px !important;
+	
+    animation: faeria-card-hover-chrome-extension-fade .25s;
+}
+
+@keyframes faeria-card-hover-chrome-extension-fade {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+img[data-faeria-hover-chrome-extension-card-overlay-image] {
+	top: calc(var(--faeria-hover-chrome-extension-card-overlay-top) - 300px);
+	left: var(--faeria-hover-chrome-extension-card-overlay-left);
+}
