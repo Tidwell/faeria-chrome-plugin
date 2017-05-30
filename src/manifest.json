@@ -13,7 +13,6 @@
    "icons": {
       "256": "icon.png"
    },
-   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu48yzjhO4L72OpgHB1O8je+BBpJU+qH9MaxJPKRRPZjXwoUv2tcTE9E9Cx6U7vXEqFHOAlEGyTxZXgMXaGsAUg9ltwweXMEPqGe9L7spxLgf/Y65wKqP2lTU6PRGKGCgPee1caq+BdnES0IdQcprdqBSCEUXUEJ0oxTzkBvakkjvU0VdqcsOzdihECqamkK/eETA5XwX2PgA+Gop1DQFCuWFXtFHACwFF98yOWLe6vRO3OY3dmZueVH4lu4ph06D52A/R+WllSPhd7IwP5ku7v/dcIXJ+qEg58nNuaTSy72DtoEGAGhFIiDpNCEMgBsOGp1yt+PEvtHPmZuw2ywjOwIDAQAB",
    "manifest_version": 2,
    "name": "Faeria Card Popup",
    "options_ui": {
