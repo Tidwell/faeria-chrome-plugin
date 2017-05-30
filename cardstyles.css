@@ -13,9 +13,9 @@ img[data-faeria-hover-chrome-extension-card-overlay-image] {
 	display: block;
 	position: fixed;
 
-	height: 300px !important;
-	width: 300px !important;
-	max-width: 300px !important;
+	height: var(--faeria-hover-chrome-extension-card-overlay-card-size) !important;
+	width: var(--faeria-hover-chrome-extension-card-overlay-card-size) !important;
+	max-width: var(--faeria-hover-chrome-extension-card-overlay-card-size) !important;
 	
     animation: faeria-card-hover-chrome-extension-fade .25s;
 }
@@ -26,6 +26,6 @@ img[data-faeria-hover-chrome-extension-card-overlay-image] {
 }
 
 img[data-faeria-hover-chrome-extension-card-overlay-image] {
-	top: calc(var(--faeria-hover-chrome-extension-card-overlay-top) - 300px);
+	top: calc(var(--faeria-hover-chrome-extension-card-overlay-top) - var(--faeria-hover-chrome-extension-card-overlay-card-size));
 	left: var(--faeria-hover-chrome-extension-card-overlay-left);
 }

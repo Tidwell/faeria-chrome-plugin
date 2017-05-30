@@ -1,4 +1,5 @@
 (function() {
+	let CARD_SIZE = 300;
 	const ALL_FAERIA_CARDS = window.ALL_FAERIA_CARDS;
 
 	const SORTED_ALL_CARDS = ALL_FAERIA_CARDS.sort((a, b) => {
@@ -140,13 +141,10 @@
 		const element = event.target;
 		const rect = element.getBoundingClientRect();
 
-		let leftPosition = rect.left - 150 + (rect.width / 2);
-		
-		document.body.style = `
-			--faeria-hover-chrome-extension-card-overlay-top: ${rect.top}px;
-			--faeria-hover-chrome-extension-card-overlay-left: ${leftPosition}px;
-		`;
+		let leftPosition = rect.left - (CARD_SIZE/2) + (rect.width / 2);
 
+		document.documentElement.style.setProperty('--faeria-hover-chrome-extension-card-overlay-top',  `${rect.top}px`);
+		document.documentElement.style.setProperty('--faeria-hover-chrome-extension-card-overlay-left', `${leftPosition}px`);
 		const cardId = padNum(element.dataset.faeriaCardHoverChromeExtensionCardId);
 		const cardElement = createCardElement(cardId);
 		cardElement.dataset.faeriaHoverChromeExtensionCardOverlayImage = true;
@@ -168,12 +166,23 @@
 		});
 	}
 
-	crawlText(document);
-	addEventListeners();
-
 	//the forums use Ember, so we have no idea if stuff gets re-rendered, instead we check every 10 seconds
 	setInterval(() => {
 		crawlText(document);
 		addEventListeners();
 	}, 10000);
+
+	//TODO
+	//
+	function getSettings() {
+		chrome.storage.sync.get(['cardSize'], function(items) {
+			CARD_SIZE = items.cardSize;
+			document.documentElement.style.setProperty('--faeria-hover-chrome-extension-card-overlay-card-size', `${items.cardSize}px`);
+		});
+	}
+
+	crawlText(document);
+	addEventListeners();
+	getSettings();
 }());
+

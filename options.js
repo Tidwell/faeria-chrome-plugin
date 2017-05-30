@@ -1,33 +1,49 @@
-// Saves options to chrome.storage
-function save_options() {
-  var size = document.getElementById('card-size').value;
-  var displayCard = true;
-  chrome.storage.sync.set({
-    cardSize: size,
-    displayCard: displayCard
-  }, function() {
-    // Update status to let user know options were saved.
-    var status = document.getElementById('status');
-    status.textContent = 'Options saved.';
-    setTimeout(function() {
-      status.textContent = '';
-    }, 750);
-  });
+let sizeInput;
+let statusTxt;
+
+function getElements() {
+	sizeInput = document.getElementById('card-size');
+	statusTxt = document.getElementById('status');
 }
 
-// Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
-function restore_options() {
-  // Use default value color = 'red' and likesColor = true.
-  chrome.storage.sync.get({
-    cardSize: 'medium',
-    displayCard: true
-  }, function(items) {
-    document.getElementById('card-size').value = items.cardSize;
-    document.getElementById('display-card').checked = items.displayCard;
-  });
+function updateValue() {
+	statusTxt.textContent = sizeInput.value;
+}
+
+function onChange() {
+	saveOptions();
+	updateValue();
+}
+
+// Saves options to chrome.storage
+function saveOptions() {
+	const size = sizeInput.value;
+	chrome.storage.sync.set({
+		cardSize: size,
+	}, function() {
+		//saved
+	});
+}
+
+function restoreOptions() {
+	chrome.storage.sync.get({
+		cardSize: 300
+	}, function(items) {
+		sizeInput.value = items.cardSize;
+		updateValue();
+	});
+}
+
+function bindEvents() {
+	sizeInput.addEventListener('input', updateValue);
+	sizeInput.addEventListener('change', onChange);
+}
+
+function init() {
+	getElements();
+	bindEvents();
+	restoreOptions();
 }
 
 // Init
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click', save_options);
+document.addEventListener('DOMContentLoaded', init);
