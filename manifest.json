@@ -1,7 +1,7 @@
 {
    "content_scripts": [{
       "css": ["cardstyles.css"],
-      "js": ["output.js", "cards.js"],
+      "js": ["storage.js", "cards.js"],
       "matches": [
          "*://*.faeria.com/*",
          "*://*.reddit.com/r/faeria/*",
@@ -9,7 +9,7 @@
       ],
       "run_at": "document_idle"
    }],
-   "description": "Adds Faeria card image hevers for any card name in text anywhere on the faeria site, reddit, or metagaming.tv.",
+   "description": "Automatically adds Faeria card image popups for any card name in text anywhere on the Faeria site, Reddit, or metagaming.tv.",
    "icons": {
       "256": "icon.png"
    },

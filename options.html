@@ -18,20 +18,31 @@
 			font-weight: bold;
 			text-align: center;
 		}
+		#card-loaded-time {
+			line-height: 1em;
+		}
 	</style>
 <body>
 	<div class="container">
-		<label>
-			Card Preview display size
-		</label>
-		<br />
+		<h3>
+			Card Size
+		</h3>
 		150 <input id="card-size" type="range" min="150" max="800" step="10" /> 800
 
 		<div class="status-container">
 			<span id="status"></span>px
 		</div>
+		<br />
+		<hr />
+		<h3>Card Data</h3>
+		<div id="card-loaded-time">
+		</div>
+		<br />
+		<button id="cache-clear">Clear Card Data</button>
+		<button id="cache-fetch">Force Fetch Card Data</button>
 	</div>
 
+	<script src="storage.js"></script>
 	<script src="options.js"></script>
 </body>
 </html>
