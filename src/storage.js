@@ -2,6 +2,13 @@ FAERIA_HOVER_CHROME_EXTENSION_STORAGE = (function() {
 	const console = window.console;
 	const chrome = window.chrome;
 
+	const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+	// a and b are javascript Date objects
+	function dateDiffInDays(a, b) {
+		return Math.floor((a.getTime() - b.getTime()) / _MS_PER_DAY);
+	}
+
 	let fetchUrlPrefix = '';
 	if (window.location.protocol === 'chrome-extension:') {
 		fetchUrlPrefix = 'http:';
@@ -49,9 +56,21 @@ FAERIA_HOVER_CHROME_EXTENSION_STORAGE = (function() {
 	}
 
 	function getCards(callback) {
-		chrome.storage.local.get(['faeriaHoverChromeExtensionAllCardCache'], function(items) {
-			if (items.faeriaHoverChromeExtensionAllCardCache) {
-				callback(items.faeriaHoverChromeExtensionAllCardCache);
+		chrome.storage.local.get(['faeriaHoverChromeExtensionAllCardCache', 'faeriaHoverChromeExtensionAllCardCacheLastRetrieved'], function(items) {
+			if (items.faeriaHoverChromeExtensionAllCardCache && items.faeriaHoverChromeExtensionAllCardCacheLastRetrieved) {
+
+				const dateDiff = dateDiffInDays(new Date(), new Date(items.faeriaHoverChromeExtensionAllCardCacheLastRetrieved));
+
+				if (dateDiff > 1) {
+					fetchCards(function(err, data){
+						if (err) {
+							return fetchFail(err);
+						}
+						fetchSuccess(data, callback);
+					});
+				} else {
+					callback(items.faeriaHoverChromeExtensionAllCardCache);
+				}
 			} else {
 				fetchCards(function(err, data){
 					if (err) {
