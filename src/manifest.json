@@ -5,7 +5,8 @@
       "matches": [
          "*://*.faeria.com/*",
          "*://*.reddit.com/r/faeria/*",
-         "*://*.metagaming.tv/*"
+         "*://*.metagaming.tv/*",
+         "*://tidwell.github.io/faeria-cards/*"
       ],
       "run_at": "document_idle"
    }],

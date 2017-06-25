@@ -16,6 +16,10 @@
 		'TEXTAREA'
 	];
 
+	if (window.location.origin.indexOf('faeria.com') > -1) {
+		ignoreNodes.push('H2');
+	}
+
 	const ignoreCards = [
 		338,
 		318,
@@ -34,6 +38,7 @@
 		320,
 		340,
 		321,
+		323,
 		337
 	];
 
@@ -60,12 +65,12 @@
 	}
 
 	function occuranceIndexes(source, find) {
-		let i;
-		var result = [];
-		for (i = 0; i < source.length; ++i) {
-			if (source.substring(i, i + find.length).toLowerCase() === find) {
-				result.push(i);
-			}
+		const result = [];
+		const regex = new RegExp('\\b'+find+'\\b', 'g');
+		
+		let myArray;
+		while ((myArray = regex.exec(source)) !== null) {
+		  result.push(regex.lastIndex - find.length);
 		}
 		return result;
 	}
@@ -89,6 +94,7 @@
 		const replacementNode = document.createElement('span');
 		replacementNode.innerHTML = replacementMarkup;
 		node.parentNode.replaceChild(replacementNode, node);
+		addEventListeners();
 	}
 
 	function replaceNodeText(node) {
@@ -117,18 +123,31 @@
 	}
 
 	function crawlText(parentNode) {
-		parentNode.childNodes.forEach((node) => {
-			if (ignoreNodes.indexOf(node.tagName) > -1 ||
-				(node.dataset && node.dataset.faeriaCardHoverChromeExtensionCardId) ||
-				(node.dataset && node.dataset.cardPreview)) {
-				return;
-			}
-			if (node.nodeType == Element.TEXT_NODE && node.textContent) {
-				replaceNodeText(node);
-			} else if (node.nodeType === Element.ELEMENT_NODE) {
-				crawlText(node);
-			}
-		});
+		let i = 0;
+		const nodeCount = parentNode.childNodes.length;
+		while (i < nodeCount) {
+			(function(index){
+				const node = parentNode.childNodes[index];
+
+				setTimeout(function() {
+					if (ignoreNodes.indexOf(node.tagName) > -1 ||
+						(node.dataset && node.dataset.faeriaCardHoverChromeExtensionCardId) ||
+						(node.dataset && node.dataset.cardPreview)) {
+						return;
+					}
+					if (node.nodeType == Element.TEXT_NODE && node.textContent) {
+						setTimeout(function(){
+							replaceNodeText(node);
+						}, 0);
+					} else if (node.nodeType === Element.ELEMENT_NODE) {
+						setTimeout(function(){
+							crawlText(node);
+						}, 0);
+					}
+				}, 0);
+			}(i));
+			i++;
+		}
 	}
 
 	function showCardPopup(event) {
@@ -146,7 +165,11 @@
 	}
 
 	function removeCardPopup() {
-		document.body.removeChild(document.querySelectorAll('[' + imageDataAttr + ']')[0]);
+		const element = document.querySelectorAll('[' + imageDataAttr + ']')[0];
+		if (!element) {
+			return;
+		}
+		document.body.removeChild(element);
 	}
 
 	function addEventListeners() {
@@ -164,7 +187,6 @@
 	function continuousCheck() {
 		setInterval(() => {
 			crawlText(document);
-			addEventListeners();
 		}, 10000);
 	}
 
@@ -193,7 +215,6 @@
 		sortCards();
 		getSettings();
 		crawlText(document);
-		addEventListeners();
 		continuousCheck();
 	}
 
